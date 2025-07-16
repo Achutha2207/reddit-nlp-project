@@ -1,115 +1,104 @@
-Reddit NLP Insight Engine
-This project builds a Natural Language Processing (NLP) pipeline to extract and analyze Reddit posts and comments from the r/technology subreddit. The analysis includes topic modeling, sentiment scoring, and clustering based on vector similarity and natural language features. It demonstrates how real-time unstructured social text can be transformed into structured insights using Python.
+# Reddit NLP Insight Engine
 
-Introduction
-In the age of decentralized public information, sentiment and topic analysis of social platforms such as Reddit offers valuable signals for industry, public opinion, and market context. This project focuses on:
+A comprehensive Natural Language Processing (NLP) pipeline for extracting, analyzing, and visualizing Reddit discussions from the r/technology subreddit. This project demonstrates topic modeling, sentiment analysis, clustering, and keyword extraction from Reddit threads.
 
-Acquiring live Reddit posts and top-level comments using the PRAW API
+---
 
-Cleaning and preprocessing unstructured text
+## 📌 Table of Contents
 
-Extracting key phrases and latent topics via vectorization and LDA
+- [Introduction](#introduction)
+- [Methodology](#methodology)
+  - [1. Data Collection](#1-data-collection)
+  - [2. Preprocessing](#2-preprocessing)
+  - [3. Feature Extraction](#3-feature-extraction)
+  - [4. Topic Modeling](#4-topic-modeling)
+  - [5. Document Clustering](#5-document-clustering)
+  - [6. Sentiment Analysis](#6-sentiment-analysis)
+- [Visualizations](#visualizations)
+- [Results](#results)
+- [Directory Structure](#directory-structure)
+- [Limitations and Future Scope](#limitations-and-future-scope)
+- [License](#license)
 
-Computing cosine similarity between discussions
+---
 
-Analyzing sentiment distribution using VADER
+## Introduction
 
-Visualizing topic clusters and sentiment trends
+This project provides an NLP pipeline that:
 
-This workflow simulates how one might monitor and extract actionable trends from online conversations relevant to financial and technology markets.
+- Extracts Reddit post titles, descriptions, and top-level comments.
+- Cleans and tokenizes text using NLTK.
+- Analyzes phrase frequency using bigrams and trigrams.
+- Models topics using Latent Dirichlet Allocation (LDA).
+- Clusters similar documents using KMeans and cosine similarity.
+- Performs sentiment analysis with VADER.
 
-Methodology
-Data Collection
-API: Reddit data pulled via the PRAW Python API (r/technology)
+---
 
-Content: Post titles, bodies, and top comments
+## Methodology
 
-Quantity: Top 10 hot or top-rated posts (configurable)
+### 1. Data Collection
 
-Text Cleaning
-Tokenization via RegexpTokenizer (punctuation removed)
+- Subreddit: `r/technology`
+- Tool: [PRAW (Python Reddit API Wrapper)](https://praw.readthedocs.io/)
+- Extracts top 10 submissions and first-level comments
 
-Lowercasing and stopword removal (NLTK stopword list)
+### 2. Preprocessing
 
-Concatenation of title, post, and first-level comment into single document per post
+- Concatenates title, body, and top-level comment
+- Cleans non-alphabetic characters and URLs
+- Removes stopwords and performs tokenization
 
-Feature Extraction
-TF-IDF Vectorization for document similarity and clustering
+### 3. Feature Extraction
 
-CountVectorizer for N-Gram extraction (bigrams/trigrams)
+- N-Gram Frequency using `CountVectorizer`
+- TF-IDF vectorization for topic modeling and clustering
 
-Topic Modeling
-Latent Dirichlet Allocation (LDA) on the TF-IDF matrix
+### 4. Topic Modeling
 
-2-topic model with top 10 terms per topic
+- `LatentDirichletAllocation` (n_components=2)
+- Extracts top 10 terms per topic
 
-Clustering
-KMeans clustering with k=3
+### 5. Document Clustering
 
-Cosine similarity matrix plotted as heatmap
+- `KMeans` clustering (n_clusters=3)
+- Cosine similarity matrix for heatmap visualization
 
-Cluster labels plotted to show thematic grouping
+### 6. Sentiment Analysis
 
-Sentiment Analysis
-VADER SentimentIntensityAnalyzer from NLTK
+- Uses `SentimentIntensityAnalyzer` from NLTK
+- Scores compound sentiment for each post
+- Labels as Positive, Neutral, or Negative
 
-Compound polarity scores per document
+---
 
-Sentiment histogram (positive, neutral, negative)
+## Visualizations
 
-Visualizations
-The following visualizations were produced:
+All plots are stored in the `visuals/` directory.
 
-WordCloud of all processed text
+| Visualization                  | File                       |
+|-------------------------------|----------------------------|
+| WordCloud                     | `visuals/wordcloud.png`    |
+| Cosine Similarity Heatmap     | `visuals/similarity.png`   |
+| LDA Topic Distribution        | `visuals/lda_topics.png`   |
+| KMeans Cluster Plot           | `visuals/kmeans.png`       |
+| Sentiment Histogram           | `visuals/sentiment.png`    |
 
-Cosine similarity heatmap between Reddit posts
+Example:
 
-Top 10 bigrams and trigrams by frequency
+![WordCloud](visuals/wordcloud.png)
 
-LDA topic distribution
+---
 
-KMeans cluster frequency
+## Results
 
-Sentiment score histogram (compound score distribution)
+- Identified 2 major topics using LDA.
+- Grouped posts into 3 clusters via KMeans.
+- Sentiment distribution calculated and visualized.
+- Extracted most common bigrams and trigrams.
+- Cosine similarity shows semantic similarity across posts.
 
-Results
-The analysis output includes:
+---
 
-Identification of the most frequent phrases in Reddit discussions
-
-Clustering of semantically similar Reddit posts
-
-Topic decomposition into two thematic groups using LDA
-
-Sentiment distribution showing the public tone (positive/negative/neutral)
-
-Visual similarity between Reddit discussions (cosine similarity)
-
-Tools & Libraries
-PRAW (Python Reddit API Wrapper)
-
-NLTK (tokenization, stopwords, VADER)
-
-Scikit-learn (TF-IDF, KMeans, LDA)
-
-Matplotlib, Seaborn, WordCloud (visualization)
-
-Project Structure
-reddit-nlp-project/
-├── reddit_nlp.py    # Main script
-├── requirements.txt  # Dependencies
-├── README.md     # Project documentation
-├── visuals/       # All output plots and figures
-
-Limitations & Future Work
-Asynchronous environment: PRAW is used in a synchronous way; for large-scale scraping, asyncpraw is recommended
-
-Only top 10 posts from r/technology are used; larger samples can increase robustness
-
-Advanced sentiment modeling (e.g., transformers) can replace VADER
-
-Deployment as a dashboard or scheduled pipeline for live monitoring
-
-License
-This project is open-sourced under the MIT License.
+## Directory Structure
 
